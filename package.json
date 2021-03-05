@@ -4,7 +4,7 @@
   "description": "Toggle snippets suggestion from command",
   "publisher": "virgilsisoe",
   "icon": "image/toggle.png",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/sisoe24/toggle-snippets-suggestion"
@@ -16,7 +16,8 @@
     "Other"
   ],
   "keywords": [
-    "Snippets", "Toggle"
+    "Snippets",
+    "Toggle"
   ],
   "activationEvents": [
     "onCommand:toggle-snippets-suggestion.enable-snippets",
