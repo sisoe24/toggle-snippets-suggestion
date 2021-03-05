@@ -3,13 +3,20 @@
   "displayName": "Toggle Snippets Suggestion",
   "description": "Toggle snippets suggestion from command",
   "publisher": "virgilsisoe",
-  "icon": "images/toggle.png",
+  "icon": "image/toggle.png",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sisoe24/toggle-snippets-suggestion"
+  },
   "engines": {
     "vscode": "^1.53.0"
   },
   "categories": [
     "Other"
+  ],
+  "keywords": [
+    "Snippets", "Toggle"
   ],
   "activationEvents": [
     "onCommand:toggle-snippets-suggestion.enable-snippets",
