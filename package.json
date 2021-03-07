@@ -4,7 +4,7 @@
   "description": "Toggle snippets suggestion from command",
   "publisher": "virgilsisoe",
   "icon": "image/toggle.png",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/sisoe24/toggle-snippets-suggestion"
