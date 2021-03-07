@@ -21,7 +21,8 @@
   ],
   "activationEvents": [
     "onCommand:toggle-snippets-suggestion.enable-snippets",
-    "onCommand:toggle-snippets-suggestion.disable-snippets"
+    "onCommand:toggle-snippets-suggestion.disable-snippets",
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
