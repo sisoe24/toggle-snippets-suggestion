@@ -1,50 +1,87 @@
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
 let statusBarItem: vscode.StatusBarItem;
 
-const configEditor = vscode.workspace.getConfiguration('editor.suggest');
+/**
+ * Get the showSnippets setting.
+ *
+ * @returns state of the showSnippets setting.
+ */
+export function settingState() {
+    const config = vscode.workspace.getConfiguration("editor.suggest");
+    return config.get("showSnippets");
+}
 
+/**
+ * Enable/Disable snippets suggestion.
+ *
+ * The setting will be updated based on the extension property: global or workspace.
+ *
+ * @param state state of snippets suggestion.
+ */
 function toggleSnippets(state: boolean) {
+    const configGlobal = vscode.workspace.getConfiguration("toggle-snippets-suggestion");
 
-    const configGlobal = vscode.workspace.getConfiguration('toggle-snippets-suggestion');
-    const enableGlobal = configGlobal.get('global') as boolean;
+    // If true, update to global settings
+    const enableGlobal = configGlobal.get("global") as boolean;
 
-    configEditor.update('showSnippets', state, enableGlobal);
+    const config = vscode.workspace.getConfiguration("editor.suggest");
+    config.update("showSnippets", state, enableGlobal);
+}
 
+/**
+ * Update status bar text with disable text
+ */
+export function disableSnippetsStatusBar() {
+    statusBarItem.text = "$(circle-slash) Snippets";
+}
+
+/**
+ * Update status bar text with enable text
+ */
+export function enableSnippetsStatusBar() {
+    statusBarItem.text = "$(check) Snippets";
+}
+
+/**
+ * Turn off `showSnippets`.
+ */
+export function disableSnippets() {
+    toggleSnippets(false);
+    disableSnippetsStatusBar();
+}
+
+/**
+ * Turn on `showSnippets`.
+ */
+export function enableSnippets() {
+    toggleSnippets(true);
+    enableSnippetsStatusBar();
 }
 
 export function activate(context: vscode.ExtensionContext) {
-    const snippetsDisabled = "$(circle-slash) Snippets";
-    const snippetsEnabled = "$(check) Snippets";
-
-    vscode.commands.registerCommand('toggle-snippets-suggestion.disable-snippets', () => {
-        toggleSnippets(false);
-        statusBarItem.text = snippetsDisabled;
-        statusBarItem.command = 'toggle-snippets-suggestion.enable-snippets';
-    });
-
-    vscode.commands.registerCommand('toggle-snippets-suggestion.enable-snippets', () => {
-        toggleSnippets(true);
-        statusBarItem.text = snippetsEnabled;
-        statusBarItem.command = 'toggle-snippets-suggestion.disable-snippets';
-    });
+    context.subscriptions.push(
+        vscode.commands.registerCommand("toggle-snippets-suggestion.toggle-snippets", () => {
+            if (settingState()) {
+                disableSnippets();
+            } else {
+                enableSnippets();
+            }
+        })
+    );
 
     statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
-    statusBarItem.tooltip = "Enable/Disable Snippets suggestion for workspace";
+    statusBarItem.tooltip = "Enable/Disable Snippets suggestions.";
+    statusBarItem.command = "toggle-snippets-suggestion.toggle-snippets";
 
-    if (configEditor.get('showSnippets')) {
-        console.log('snippets is true');
-        statusBarItem.text = snippetsEnabled;
-        statusBarItem.command = 'toggle-snippets-suggestion.disable-snippets';
+    // Set status bar text based on settings state
+    if (settingState()) {
+        enableSnippetsStatusBar();
     } else {
-        console.log('snippets is false');
-        statusBarItem.text = snippetsDisabled;
-        statusBarItem.command = 'toggle-snippets-suggestion.enable-snippets';
+        disableSnippetsStatusBar();
     }
 
     statusBarItem.show();
-
-    context.subscriptions.push(statusBarItem);
 }
 
-export function deactivate() { }
+export function deactivate() {}
