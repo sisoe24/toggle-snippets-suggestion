@@ -1,7 +1,7 @@
 {
   "name": "toggle-snippets-suggestion",
   "displayName": "Toggle Snippets Suggestion",
-  "description": "Toggle snippets suggestion from command",
+  "description": "Toggle snippets suggestion from command or status bar.",
   "publisher": "virgilsisoe",
   "icon": "image/toggle.png",
   "version": "0.1.0",
@@ -20,20 +20,14 @@
     "Toggle"
   ],
   "activationEvents": [
-    "onCommand:toggle-snippets-suggestion.enable-snippets",
-    "onCommand:toggle-snippets-suggestion.disable-snippets",
     "onStartupFinished"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "toggle-snippets-suggestion.enable-snippets",
-        "title": "Enable Snippets Suggestions"
-      },
-      {
-        "command": "toggle-snippets-suggestion.disable-snippets",
-        "title": "Disable Snippets Suggestions"
+        "command": "toggle-snippets-suggestion.toggle-snippets",
+        "title": "Toggle Snippets Suggestion: Toggle setting"
       }
     ],
     "configuration": [
@@ -43,7 +37,7 @@
           "toggle-snippets-suggestion.global": {
             "type": "boolean",
             "default": false,
-            "description": "Enable snippets at a Global level instead of Workspace."
+            "description": "Update setting at a Global level instead of Workspace."
           }
         }
       }
