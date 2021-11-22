@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-let statusBarItem: vscode.StatusBarItem;
+export let statusBarItem: vscode.StatusBarItem;
 
 /**
  * Get the showSnippets setting.
@@ -19,14 +19,14 @@ export function settingState() {
  *
  * @param state state of snippets suggestion.
  */
-function toggleSnippets(state: boolean) {
+export async function toggleSnippets(state: boolean) {
     const configGlobal = vscode.workspace.getConfiguration("toggle-snippets-suggestion");
 
     // If true, update to global settings
     const enableGlobal = configGlobal.get("global") as boolean;
 
     const config = vscode.workspace.getConfiguration("editor.suggest");
-    config.update("showSnippets", state, enableGlobal);
+    await config.update("showSnippets", state, enableGlobal);
 }
 
 /**
@@ -59,6 +59,15 @@ export function enableSnippets() {
     enableSnippetsStatusBar();
 }
 
+/**
+ * Create the status bar action.
+ */
+export function createStatusBar() {
+    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
+    statusBarItem.tooltip = "Enable/Disable Snippets suggestions.";
+    statusBarItem.command = "toggle-snippets-suggestion.toggle-snippets";
+}
+
 export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand("toggle-snippets-suggestion.toggle-snippets", () => {
@@ -70,9 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
         })
     );
 
-    statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 1);
-    statusBarItem.tooltip = "Enable/Disable Snippets suggestions.";
-    statusBarItem.command = "toggle-snippets-suggestion.toggle-snippets";
+    createStatusBar();
 
     // Set status bar text based on settings state
     if (settingState()) {
