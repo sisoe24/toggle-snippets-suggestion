@@ -12,3 +12,4 @@ Quick toggle command and status bar action to enable/disable user snippets sugge
 
 ## Screenshot
 
+![ToggleSnippets](https://raw.githubusercontent.com/sisoe24/toggle-snippets-suggestion/main/image/toggle_snippets.gif)
